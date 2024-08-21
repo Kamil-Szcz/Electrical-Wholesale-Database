@@ -5,8 +5,8 @@ This project encompasses the full lifecycle of data management and analysis for 
 1. Database Creation: SQL script to create the database structure.
 2. Data Import: Steps to import data from Excel files into the database.
 3. SQL Queries: Sample queries to extract and manipulate data.
-4. Data Analysis: Guidelines for data analysis in Excel.
-5. Data Visualization: Instructions for creating visualizations in Power BI.
+4. Data Analysis: Conducting data analysis in Excel.
+5. Data Visualization: Creating visualizations in Power BI.
 
 ## Requirements
 - Oracle SQL Developer
