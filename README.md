@@ -40,7 +40,7 @@ This section includes example SQL queries for:
 - Data transformation
 
 ### 4. Data Analysis in Excel
-After extracting the necessary data using SQL queries, this section will guide you through:
+After extracting the necessary data using SQL queries, this section includes:
 - Importing the data into Excel.
 - Performing data analysis using PivotTables, formulas, and other Excel features.
 
