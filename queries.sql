@@ -23,10 +23,12 @@ ON si.sales_id = sh.sales_id
 GROUP BY TO_CHAR(sh.sale_date, 'YYYY-MM-DD')
 ORDER BY day;
 
--- 3. Które dni tygodnia generuj¹ najwy¿sze obroty?
-SELECT SUM(si.quantity) AS sales_total, TO_CHAR(sh.sale_date, 'Day', 'NLS_DATE_LANGUAGE=Polish') AS day_of_week
+-- 3. Which days of the week generate the highest sales?
+SELECT ROUND(SUM(si.quantity * p.net_sale_price), 2) AS sales_value, TO_CHAR(sh.sale_date, 'Day', 'NLS_DATE_LANGUAGE=Polish') AS day_of_week
 FROM sales_items si
 INNER JOIN sales_history sh
 ON si.sales_id = sh.sales_id
-GROUP BY TO_CHAR(sh.sale_date, 'Day', 'NLS_DATE_LANGUAGE=Polish'), TO_CHAR(sh.sale_date, 'D', 'NLS_DATE_LANGUAGE=Polish')
-ORDER BY TO_CHAR(sh.sale_date, 'D', 'NLS_DATE_LANGUAGE=Polish'); 
+INNER JOIN products p
+ON si.product_id = p.product_id
+GROUP BY TO_CHAR(sh.sale_date, 'Day', 'NLS_DATE_LANGUAGE=Polish')
+ORDER BY sales_value DESC;
