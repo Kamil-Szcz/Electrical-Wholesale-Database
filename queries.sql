@@ -49,4 +49,17 @@ SELECT customer_name, ROUND(purchase_value, 2) AS purchase_value
 FROM CustomerPurchaseValues
 ORDER BY purchase_value DESC;
 
+-- 5. What is the average value of orders?
+SELECT ROUND(AVG(order_value), 2) AS average_order_value
+FROM 
+(
+SELECT sh.sales_id, SUM(si.quantity * p.net_sale_price) AS order_value
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id 
+GROUP BY sh.sales_id
+);
+
 
