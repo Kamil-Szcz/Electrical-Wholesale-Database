@@ -97,3 +97,38 @@ FROM
 ORDER BY 
     profit_margin_percentage DESC;
 
+-- 9. Which products have the highest return on investment (ROI)?
+SELECT 
+    product_id
+    , product_description
+    , net_sale_price
+    , net_purchase_price
+    , ROUND(((net_sale_price - net_purchase_price) / net_purchase_price) * 100, 2) AS ROI_percentage
+FROM 
+    products
+WHERE 
+    net_purchase_price > 0 -- Excludes products with zero or unknown purchase cost
+ORDER BY 
+    ROI_percentage DESC;
+
+-- 10. What are the projected revenues based on current sales trends? 
+WITH Monthly_Sales AS 
+(
+    SELECT TRUNC(sh.sale_date, 'MM') AS sales_month, SUM(si.quantity * p.net_sale_price) AS monthly_revenue
+    FROM sales_history sh
+    INNER JOIN sales_items si
+    ON sh.sales_id = si.sales_id
+    INNER JOIN products p
+    ON si.product_id = p.product_id 
+    GROUP BY 
+    TRUNC(sh.sale_date, 'MM')
+),
+MovingAverage AS 
+(
+    SELECT sales_month, AVG(monthly_revenue) OVER (ORDER BY sales_month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS moving_avg_revenue
+    FROM Monthly_Sales
+)
+
+SELECT sales_month, ROUND(moving_avg_revenue, 2) AS forecasted_revenue
+FROM MovingAverage
+ORDER BY sales_month DESC;
