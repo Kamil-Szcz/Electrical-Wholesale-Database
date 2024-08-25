@@ -1784,3 +1784,19 @@ WHERE quantity_in_stock > 300 AND quantity_in_stock < 310;
 UPDATE products
 SET reorder_level = 500
 WHERE product_id LIKE UPPER('%a');
+
+UPDATE products
+SET reorder_level = 1
+WHERE net_sale_price > 400000;
+
+UPDATE products
+SET reorder_level = 3
+WHERE net_sale_price > 350000;
+
+UPDATE products
+SET reorder_level = 5
+WHERE net_sale_price > 300000;
+
+UPDATE products
+SET reorder_level = 10
+WHERE net_sale_price > 250000;
