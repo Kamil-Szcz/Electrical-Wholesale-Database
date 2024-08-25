@@ -1776,3 +1776,11 @@ ADD reorder_level NUMBER(38,0) DEFAULT 0;
 -- Completion of data in the “reorder_level” column of the “products” table
 UPDATE products
 SET reorder_level = CEIL(quantity_in_stock * 0.10);
+
+UPDATE products
+SET reorder_level = 350
+WHERE quantity_in_stock > 300 AND quantity_in_stock < 310; 
+
+UPDATE products
+SET reorder_level = 500
+WHERE product_id LIKE UPPER('%a');
