@@ -81,6 +81,19 @@ ORDER BY average_sales DESC;
 -- 7. Which products are running low?
 SELECT product_id, product_description, quantity_in_stock, reorder_level
 FROM products
-WHERE reorder_level > quantity_in_stock  
+WHERE reorder_level >= quantity_in_stock  
 ORDER BY quantity_in_stock;
+
+-- 8. What are the profit margins on each product?
+SELECT 
+    product_id 
+    , product_description 
+    , net_sale_price 
+    , net_purchase_price 
+    , (net_sale_price - net_purchase_price) AS profit_margin_value 
+    , ROUND(((net_sale_price - net_purchase_price) / net_sale_price) * 100, 2) AS profit_margin_percentage
+FROM 
+    products 
+ORDER BY 
+    profit_margin_percentage DESC;
 
