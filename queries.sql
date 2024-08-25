@@ -78,3 +78,9 @@ ON si.product_id = p.product_id
 GROUP BY v.voivodeship_name
 ORDER BY average_sales DESC;
 
+-- 7. Which products are running low?
+SELECT product_id, product_description, quantity_in_stock, reorder_level
+FROM products
+WHERE reorder_level > quantity_in_stock  
+ORDER BY quantity_in_stock;
+
