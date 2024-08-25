@@ -63,17 +63,17 @@ GROUP BY sh.sales_id
 );
 
 -- 6. What are the average sales in each voivodeship?
-SELECT v.voivodeship_name, ROUND(AVG(si.quantity * p.net_sale_price), 2) AS average_sales
-FROM sales_history sh
-INNER JOIN customers c 
-ON sh.customer_id = c.customer_id
-INNER JOIN locations l 
-ON c.location_id = l.location_id
-INNER JOIN voivodeships v 
-ON l.voivodeship = v.voivodeship_id
-INNER JOIN sales_items si 
+SELECT v.voivodeship_name, ROUND(NVL(AVG(si.quantity * p.net_sale_price), 0), 2) AS average_sales
+FROM voivodeships v
+LEFT OUTER JOIN locations l 
+ON v.voivodeship_id = l.voivodeship
+LEFT OUTER JOIN customers c 
+ON l.location_id = c.location_id
+LEFT OUTER JOIN sales_history sh 
+ON c.customer_id = sh.customer_id
+LEFT OUTER JOIN sales_items si 
 ON sh.sales_id = si.sales_id
-INNER JOIN products p 
+LEFT OUTER JOIN products p 
 ON si.product_id = p.product_id
 GROUP BY v.voivodeship_name
 ORDER BY average_sales DESC;
