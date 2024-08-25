@@ -1766,3 +1766,8 @@ ALTER SESSION SET nls_date_format = 'yyyy-mm-dd';
 
 
 -- Data to the “shopping_items” table was added with Data Import Wizard, using the file “material_purchases_-_details.xlsx”
+
+
+-- Adding a “reorder_level” column to the “products” table
+ALTER TABLE products
+ADD reorder_level NUMBER(38,0) DEFAULT 0;
