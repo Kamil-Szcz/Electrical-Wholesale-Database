@@ -1771,3 +1771,8 @@ ALTER SESSION SET nls_date_format = 'yyyy-mm-dd';
 -- Adding a “reorder_level” column to the “products” table
 ALTER TABLE products
 ADD reorder_level NUMBER(38,0) DEFAULT 0;
+
+
+-- Completion of data in the “reorder_level” column of the “products” table
+UPDATE products
+SET reorder_level = CEIL(quantity_in_stock * 0.10);
