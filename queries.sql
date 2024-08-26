@@ -133,3 +133,17 @@ MovingAverage AS
 SELECT sales_month, ROUND(moving_avg_revenue, 2) AS forecasted_revenue
 FROM MovingAverage
 ORDER BY sales_month DESC;
+
+-- 11. What products should be promoted to increase sales?
+-- This query identifies products with high margins but low total sales
+SELECT 
+    p.product_id
+    , p.product_description
+    , ROUND((p.net_sale_price - p.net_purchase_price) / p.net_purchase_price * 100, 2) AS profit_margin_percentage
+    , SUM(si.quantity) AS total_sales_quantity
+FROM products p
+INNER JOIN sales_items si 
+ON p.product_id = si.product_id
+GROUP BY p.product_id, p.product_description, p.net_sale_price, p.net_purchase_price
+HAVING SUM(si.quantity) < (SELECT AVG(SUM(quantity)) FROM sales_items GROUP BY product_id) -- Products below average sales
+ORDER BY profit_margin_percentage DESC, total_sales_quantity ASC;
