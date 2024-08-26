@@ -173,7 +173,7 @@ GROUP BY e.employee_id, e.first_name, e.last_name
 ORDER BY number_of_products_sold DESC;
 
 -- 14. Which salesman generated the most revenue?
-SELECT e.employee_id, e.first_name, e.last_name, SUM(si.quantity * p.net_sale_price) AS revenue
+SELECT e.employee_id, e.first_name, e.last_name, ROUND(SUM(si.quantity * p.net_sale_price), 2) AS revenue
 FROM employees e
 INNER JOIN jobs j
 ON e.job_id = j.job_id
