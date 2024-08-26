@@ -112,6 +112,7 @@ ORDER BY
     ROI_percentage DESC;
 
 -- 10. What are the projected revenues based on current sales trends? 
+-- The query calculates the revenue forecast based on the average revenue of the last 3 months
 WITH Monthly_Sales AS 
 (
     SELECT TRUNC(sh.sale_date, 'MM') AS sales_month, SUM(si.quantity * p.net_sale_price) AS monthly_revenue
