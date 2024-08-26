@@ -147,3 +147,42 @@ ON p.product_id = si.product_id
 GROUP BY p.product_id, p.product_description, p.net_sale_price, p.net_purchase_price
 HAVING SUM(si.quantity) < (SELECT AVG(SUM(quantity)) FROM sales_items GROUP BY product_id) -- Products below average sales
 ORDER BY profit_margin_percentage DESC, total_sales_quantity ASC;
+
+-- 12. Which salesman has completed the most transactions?
+SELECT e.employee_id, e.first_name, e.last_name, COUNT(sh.sales_id) AS transaction_count
+FROM employees e
+INNER JOIN jobs j
+ON e.job_id = j.job_id
+INNER JOIN sales_history sh
+ON e.employee_id = sh.seller
+WHERE j.job_title = 'Sales Representative'
+GROUP BY e.employee_id, e.first_name, e.last_name
+ORDER BY transaction_count DESC;
+
+--13. Which salesman sold the most products?
+SELECT e.employee_id, e.first_name, e.last_name, SUM(si.quantity) AS number_of_products_sold
+FROM employees e
+INNER JOIN jobs j
+ON e.job_id = j.job_id
+INNER JOIN sales_history sh
+ON e.employee_id = sh.seller
+INNER JOIN sales_items si
+ON sh.sales_id = si.sales_id
+WHERE j.job_title = 'Sales Representative'
+GROUP BY e.employee_id, e.first_name, e.last_name
+ORDER BY number_of_products_sold DESC;
+
+-- 14. Which salesman generated the most revenue?
+SELECT e.employee_id, e.first_name, e.last_name, SUM(si.quantity * p.net_sale_price) AS revenue
+FROM employees e
+INNER JOIN jobs j
+ON e.job_id = j.job_id
+INNER JOIN sales_history sh
+ON e.employee_id = sh.seller
+INNER JOIN sales_items si
+ON sh.sales_id = si.sales_id
+INNER JOIN products p
+ON si.product_id = p.product_id
+WHERE j.job_title = 'Sales Representative'
+GROUP BY e.employee_id, e.first_name, e.last_name
+ORDER BY revenue DESC;
