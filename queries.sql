@@ -234,3 +234,18 @@ LEFT OUTER JOIN
     ) sd 
 ON v.voivodeship_name = sd.voivodeship_name
 ORDER BY v.voivodeship_name;
+
+-- 16. What is the average value of an order for a particular salesman? 
+SELECT e.employee_id, e.first_name, e.last_name, ROUND(AVG(si.quantity * p.net_sale_price), 2) AS average_value
+FROM employees e
+INNER JOIN jobs j
+ON e.job_id = j.job_id
+INNER JOIN sales_history sh
+ON e.employee_id = sh.seller
+INNER JOIN sales_items si
+ON sh.sales_id = si.sales_id
+INNER JOIN products p
+ON si.product_id = p.product_id
+WHERE j.job_title = 'Sales Representative'
+GROUP BY e.employee_id, e.first_name, e.last_name
+ORDER BY average_value DESC;
