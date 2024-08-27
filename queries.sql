@@ -188,7 +188,7 @@ GROUP BY e.employee_id, e.first_name, e.last_name
 ORDER BY revenue DESC;
 
 -- 15. Which salesman sold the most in each voivodeship?
-WITH SalesData AS 
+WITH sales_data AS 
 (
 SELECT 
     v.voivodeship_name
@@ -197,7 +197,7 @@ SELECT
     , e.last_name
     , SUM(si.quantity * p.net_sale_price) AS total_sale
 FROM 
-    voivodeships v
+voivodeships v
 LEFT OUTER JOIN locations l 
 ON v.voivodeship_id = l.voivodeship
 LEFT OUTER JOIN customers c 
@@ -216,7 +216,7 @@ GROUP BY v.voivodeship_name, e.employee_id, e.first_name, e.last_name
 SELECT
     v.voivodeship_name
     , CASE 
-        WHEN sd.first_name IS NULL AND sd.last_name IS NULL THEN 'Brak sprzedaży'
+        WHEN sd.first_name IS NULL AND sd.last_name IS NULL THEN '!Lack of sales!'
         ELSE sd.first_name || ' ' || sd.last_name 
         END AS salesman
     , COALESCE(sd.total_sale, 0) AS total_sale
@@ -224,11 +224,11 @@ FROM
     voivodeships v
 LEFT OUTER JOIN 
     (SELECT voivodeship_name, first_name, last_name, total_sale
-    FROM SalesData
+    FROM sales_data
     WHERE (voivodeship_name, total_sale) 
     IN (
         SELECT voivodeship_name, MAX(total_sale)
-        FROM SalesData
+        FROM sales_data
         GROUP BY voivodeship_name
         )
     ) sd 
@@ -249,3 +249,44 @@ ON si.product_id = p.product_id
 WHERE j.job_title = 'Sales Representative'
 GROUP BY e.employee_id, e.first_name, e.last_name
 ORDER BY average_value DESC;
+
+-- 17. Which products bring in the most revenue in each voivodeship?
+WITH product_popularity AS
+(
+SELECT 
+    v.voivodeship_name
+    , p.product_id
+    , p.product_description
+    , SUM(si.quantity * p.net_sale_price) AS total_sale
+FROM voivodeships v
+LEFT OUTER JOIN locations l
+ON v.voivodeship_id = l.voivodeship
+LEFT OUTER JOIN customers c
+ON l.location_id = c.location_id
+LEFT OUTER JOIN sales_history sh
+ON c.customer_id = sh.customer_id
+LEFT OUTER JOIN sales_items si
+ON sh.sales_id = si.sales_id
+LEFT OUTER JOIN products p
+ON si.product_id = p.product_id
+GROUP BY v.voivodeship_name, p.product_id, p.product_description
+)
+
+SELECT
+    v.voivodeship_name
+    , COALESCE(pp.product_id, '!Lack of sales!') AS product_id 
+    , COALESCE(pp.total_sale, 0) AS total_sale
+FROM 
+voivodeships v
+LEFT OUTER JOIN 
+    (SELECT voivodeship_name, product_id, total_sale
+    FROM product_popularity
+    WHERE (voivodeship_name, total_sale) 
+    IN (
+        SELECT voivodeship_name, MAX(total_sale)
+        FROM product_popularity
+        GROUP BY voivodeship_name
+        )
+    ) pp 
+ON v.voivodeship_name = pp.voivodeship_name
+ORDER BY total_sale DESC;
