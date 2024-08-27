@@ -186,3 +186,51 @@ ON si.product_id = p.product_id
 WHERE j.job_title = 'Sales Representative'
 GROUP BY e.employee_id, e.first_name, e.last_name
 ORDER BY revenue DESC;
+
+-- 15. Which salesman sold the most in each voivodeship?
+WITH SalesData AS 
+(
+SELECT 
+    v.voivodeship_name
+    , e.employee_id
+    , e.first_name
+    , e.last_name
+    , SUM(si.quantity * p.net_sale_price) AS total_sale
+FROM 
+    voivodeships v
+LEFT OUTER JOIN locations l 
+ON v.voivodeship_id = l.voivodeship
+LEFT OUTER JOIN customers c 
+ON l.location_id = c.location_id
+LEFT OUTER JOIN sales_history sh 
+ON c.customer_id = sh.customer_id
+LEFT OUTER JOIN employees e 
+ON sh.seller = e.employee_id
+LEFT OUTER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+LEFT OUTER JOIN products p 
+ON si.product_id = p.product_id
+GROUP BY v.voivodeship_name, e.employee_id, e.first_name, e.last_name
+)
+
+SELECT
+    v.voivodeship_name
+    , CASE 
+        WHEN sd.first_name IS NULL AND sd.last_name IS NULL THEN 'Brak sprzedaży'
+        ELSE sd.first_name || ' ' || sd.last_name 
+        END AS salesman
+    , COALESCE(sd.total_sale, 0) AS total_sale
+FROM 
+    voivodeships v
+LEFT OUTER JOIN 
+    (SELECT voivodeship_name, first_name, last_name, total_sale
+    FROM SalesData
+    WHERE (voivodeship_name, total_sale) 
+    IN (
+        SELECT voivodeship_name, MAX(total_sale)
+        FROM SalesData
+        GROUP BY voivodeship_name
+        )
+    ) sd 
+ON v.voivodeship_name = sd.voivodeship_name
+ORDER BY v.voivodeship_name;
