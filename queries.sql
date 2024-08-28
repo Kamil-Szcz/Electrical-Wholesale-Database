@@ -376,3 +376,79 @@ ON si.product_id = p.product_id
 GROUP BY TO_CHAR(sh.sale_date, 'YYYY')
 ORDER BY sale_year;
 
+-- 22. 
+WITH category_sales AS 
+(
+SELECT 
+    TO_CHAR(sh.sale_date, 'YYYY-MM') AS sale_month
+    , TO_CHAR(sh.sale_date, 'YYYY') AS sale_year
+    , TO_CHAR(sh.sale_date, 'Q') AS sale_quarter
+    , p.range_id
+    , pr.product_range_name
+    , SUM(si.quantity * p.net_sale_price) AS total_sales
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+INNER JOIN product_ranges pr 
+ON p.range_id = pr.product_range_id
+GROUP BY TO_CHAR(sh.sale_date, 'YYYY-MM'), TO_CHAR(sh.sale_date, 'YYYY'), TO_CHAR(sh.sale_date, 'Q'), p.range_id, pr.product_range_name
+),
+monthly_sales_change AS 
+(
+SELECT 
+    sale_month
+    , product_range_name
+    , total_sales
+    , total_sales - LAG(total_sales) OVER (PARTITION BY product_range_name ORDER BY sale_month) AS sales_change_monthly
+FROM category_sales
+),
+quarterly_sales_change AS 
+(
+SELECT 
+    sale_year
+    , sale_quarter
+    , product_range_name
+    , total_sales
+    , total_sales - LAG(total_sales) OVER (PARTITION BY product_range_name ORDER BY sale_year, sale_quarter) AS sales_change_quarterly
+FROM category_sales
+),
+yearly_sales_change AS 
+(
+SELECT 
+    sale_year
+    , product_range_name
+    , total_sales
+    , total_sales - LAG(total_sales) OVER (PARTITION BY product_range_name ORDER BY sale_year) AS sales_change_yearly
+FROM category_sales
+)
+
+SELECT 
+    'Monthly' AS period_type,
+    sale_month AS period,
+    product_range_name,
+    total_sales,
+    sales_change_monthly AS sales_change
+FROM 
+    monthly_sales_change
+UNION ALL
+SELECT 
+    'Quarterly' AS period_type,
+    sale_year || '-Q' || sale_quarter AS period,
+    product_range_name,
+    total_sales,
+    sales_change_quarterly AS sales_change
+FROM 
+    quarterly_sales_change
+UNION ALL
+SELECT 
+    'Yearly' AS period_type,
+    sale_year AS period,
+    product_range_name,
+    total_sales,
+    sales_change_yearly AS sales_change
+FROM 
+    yearly_sales_change
+ORDER BY 
+    product_range_name, period_type, period;
