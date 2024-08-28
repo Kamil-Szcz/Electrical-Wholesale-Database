@@ -305,7 +305,7 @@ ORDER BY
     profit_margin_percentage ASC;
 
 -- 19. Which products are most seasonal?
-WITH MonthlySales AS 
+WITH monthly_sales AS 
 (
 SELECT p.product_id, p.product_description, EXTRACT(MONTH FROM sh.sale_date) AS sale_month, SUM(si.quantity) AS total_quantity_sold
 FROM products p
@@ -315,13 +315,32 @@ INNER JOIN sales_history sh
 ON si.sales_id = sh.sales_id
 GROUP BY p.product_id, p.product_description, EXTRACT(MONTH FROM sh.sale_date)
 ),
-SalesVariation AS 
+sales_variation AS 
 (
 SELECT product_id, product_description, ROUND(STDDEV(total_quantity_sold), 2) AS sales_std_dev -- standard deviation of monthly sales of each product
-FROM MonthlySales
+FROM monthly_sales
 GROUP BY product_id, product_description
 )
 
 SELECT product_description, sales_std_dev
-FROM SalesVariation
+FROM sales_variation
 ORDER BY sales_std_dev DESC;
+
+-- 20. What is the average time between orders for each customer?
+WITH order_intervals AS 
+(
+SELECT 
+    sh.customer_id
+    , c.customer_name
+    , sh.sale_date
+    , LAG(sh.sale_date) OVER (PARTITION BY sh.customer_id ORDER BY sh.sale_date) AS previous_sale_date
+FROM sales_history sh
+INNER JOIN customers c 
+ON sh.customer_id = c.customer_id
+)
+
+SELECT customer_id, customer_name, ROUND(AVG(sale_date - previous_sale_date), 2) AS avg_days_between_orders
+FROM order_intervals
+WHERE previous_sale_date IS NOT NULL
+GROUP BY customer_id, customer_name
+ORDER BY avg_days_between_orders ASC;
