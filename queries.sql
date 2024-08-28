@@ -344,3 +344,35 @@ FROM order_intervals
 WHERE previous_sale_date IS NOT NULL
 GROUP BY customer_id, customer_name
 ORDER BY avg_days_between_orders ASC;
+
+-- 21. What are the monthly, quarterly and annual sales trends?
+-- Monthly sales trends:
+SELECT TO_CHAR(sh.sale_date, 'YYYY-MM') AS sale_month, SUM(si.quantity * p.net_sale_price) AS total_sales
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+GROUP BY TO_CHAR(sh.sale_date, 'YYYY-MM')
+ORDER BY sale_month;
+
+-- Quarterly sales trends:    
+SELECT TO_CHAR(sh.sale_date, 'YYYY') AS sale_year, TO_CHAR(sh.sale_date, 'Q') AS sale_quarter, SUM(si.quantity * p.net_sale_price) AS total_sales
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+GROUP BY TO_CHAR(sh.sale_date, 'YYYY'), TO_CHAR(sh.sale_date, 'Q')
+ORDER BY sale_year, sale_quarter;
+
+--Yearly sales trends:    
+SELECT TO_CHAR(sh.sale_date, 'YYYY') AS sale_year, SUM(si.quantity * p.net_sale_price) AS total_sales
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+GROUP BY TO_CHAR(sh.sale_date, 'YYYY')
+ORDER BY sale_year;
+
