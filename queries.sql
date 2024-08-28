@@ -290,3 +290,16 @@ LEFT OUTER JOIN
     ) pp 
 ON v.voivodeship_name = pp.voivodeship_name
 ORDER BY total_sale DESC;
+
+-- 18. Which products have the lowest profit margins?
+SELECT 
+    product_id 
+    , product_description 
+    , net_sale_price 
+    , net_purchase_price 
+    , (net_sale_price - net_purchase_price) AS profit_margin_value 
+    , ROUND(((net_sale_price - net_purchase_price) / net_sale_price) * 100, 2) AS profit_margin_percentage
+FROM 
+    products 
+ORDER BY 
+    profit_margin_percentage ASC;
