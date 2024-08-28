@@ -303,3 +303,25 @@ FROM
     products 
 ORDER BY 
     profit_margin_percentage ASC;
+
+-- 19. Which products are most seasonal?
+WITH MonthlySales AS 
+(
+SELECT p.product_id, p.product_description, EXTRACT(MONTH FROM sh.sale_date) AS sale_month, SUM(si.quantity) AS total_quantity_sold
+FROM products p
+INNER JOIN sales_items si 
+ON p.product_id = si.product_id
+INNER JOIN sales_history sh 
+ON si.sales_id = sh.sales_id
+GROUP BY p.product_id, p.product_description, EXTRACT(MONTH FROM sh.sale_date)
+),
+SalesVariation AS 
+(
+SELECT product_id, product_description, ROUND(STDDEV(total_quantity_sold), 2) AS sales_std_dev -- standard deviation of monthly sales of each product
+FROM MonthlySales
+GROUP BY product_id, product_description
+)
+
+SELECT product_description, sales_std_dev
+FROM SalesVariation
+ORDER BY sales_std_dev DESC;
