@@ -452,3 +452,29 @@ FROM
     yearly_sales_change
 ORDER BY 
     product_range_name, period_type, period;
+
+-- 22. How are sales in each product category changing?
+-- A view for the monthly sales change:
+CREATE OR REPLACE VIEW monthly_sales_change AS
+SELECT 
+    sale_month
+    , product_range_name
+    , total_sales
+    , total_sales - LAG(total_sales) OVER (PARTITION BY product_range_name ORDER BY sale_month) AS sales_change_monthly
+FROM 
+    (
+        SELECT 
+            TO_CHAR(sh.sale_date, 'YYYY-MM') AS sale_month
+            , p.range_id
+            , pr.product_range_name
+            , SUM(si.quantity * p.net_sale_price) AS total_sales
+        FROM 
+            sales_history sh
+        INNER JOIN sales_items si 
+        ON sh.sales_id = si.sales_id
+        INNER JOIN products p 
+        ON si.product_id = p.product_id
+        INNER JOIN product_ranges pr 
+        ON p.range_id = pr.product_range_id
+        GROUP BY TO_CHAR(sh.sale_date, 'YYYY-MM'), p.range_id, pr.product_range_name
+    ) category_sales;
