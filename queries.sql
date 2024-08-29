@@ -450,3 +450,19 @@ FROM
         ON p.range_id = pr.product_range_id
         GROUP BY TO_CHAR(sh.sale_date, 'YYYY'), p.range_id, pr.product_range_name
     ) category_sales;
+
+-- 23. Which days of the week are most popular with customers?
+SELECT TO_CHAR(sh.sale_date, 'Day') AS day_of_week, COUNT(*) AS transaction_count
+FROM sales_history sh
+GROUP BY TO_CHAR(sh.sale_date, 'Day'), TO_CHAR(sh.sale_date, 'D')
+ORDER BY transaction_count DESC;
+
+-- 24. What is the average order value depending on the day of the week?
+SELECT TO_CHAR(sh.sale_date, 'Day') AS day_of_week, ROUND(AVG(si.quantity * p.net_sale_price), 2) AS avg_order_value
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+GROUP BY TO_CHAR(sh.sale_date, 'Day'), TO_CHAR(sh.sale_date, 'D')
+ORDER BY avg_order_value;
