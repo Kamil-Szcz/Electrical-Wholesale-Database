@@ -466,3 +466,21 @@ INNER JOIN products p
 ON si.product_id = p.product_id
 GROUP BY TO_CHAR(sh.sale_date, 'Day'), TO_CHAR(sh.sale_date, 'D')
 ORDER BY avg_order_value;
+
+--25. What quantity did a particular salesman sell to a particular consumer?  
+SELECT 
+    e.first_name || ' ' || e.last_name AS salesman_name
+    , c.customer_name
+    , ROUND(SUM(si.quantity * p.net_sale_price), 2) AS total_sales_value
+    , SUM(si.quantity) AS total_quantity_sold
+FROM sales_history sh
+INNER JOIN sales_items si 
+ON sh.sales_id = si.sales_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+INNER JOIN customers c 
+ON sh.customer_id = c.customer_id
+INNER JOIN employees e 
+ON sh.seller = e.employee_id
+GROUP BY e.first_name || ' ' || e.last_name, c.customer_name
+ORDER BY salesman_name, total_sales_value DESC;
