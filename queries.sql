@@ -467,7 +467,7 @@ ON si.product_id = p.product_id
 GROUP BY TO_CHAR(sh.sale_date, 'Day'), TO_CHAR(sh.sale_date, 'D')
 ORDER BY avg_order_value;
 
---25. What quantity did a particular salesman sell to a particular consumer?  
+-- 25. What quantity did a particular salesman sell to a particular consumer?  
 SELECT 
     e.first_name || ' ' || e.last_name AS salesman_name
     , c.customer_name
@@ -484,3 +484,13 @@ INNER JOIN employees e
 ON sh.seller = e.employee_id
 GROUP BY e.first_name || ' ' || e.last_name, c.customer_name
 ORDER BY salesman_name, total_sales_value DESC;
+
+-- 26. Which supplier delivered the most products?
+SELECT s.supplier_name, SUM(si.quantity) AS total_quantity_supplied
+FROM suppliers s
+INNER JOIN purchase_history ph
+ON s.supplier_id = ph.supplier_id
+INNER JOIN shopping_items si
+ON ph.purchase_id = si.purchase_id
+GROUP BY s.supplier_name
+ORDER BY total_quantity_supplied DESC;
