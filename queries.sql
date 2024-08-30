@@ -494,3 +494,43 @@ INNER JOIN shopping_items si
 ON ph.purchase_id = si.purchase_id
 GROUP BY s.supplier_name
 ORDER BY total_quantity_supplied DESC;
+
+-- 27. What is the average cost of purchasing products from each supplier?
+SELECT s.supplier_name, ROUND(AVG(si.quantity * p.net_purchase_price), 2) AS avg_purchase_cost
+FROM suppliers s
+INNER JOIN purchase_history ph 
+ON s.supplier_id = ph.supplier_id
+INNER JOIN shopping_items si 
+ON ph.purchase_id = si.purchase_id
+INNER JOIN products p 
+ON si.product_id = p.product_id
+GROUP BY s.supplier_name
+ORDER BY avg_purchase_cost DESC;
+
+-- 28. Which suppliers have the largest share of sales?
+WITH supplier_sales AS 
+(
+    SELECT s.supplier_id, s.supplier_name, SUM(si.quantity * p.net_sale_price) AS total_sales
+    FROM suppliers s
+    INNER JOIN purchase_history ph 
+    ON s.supplier_id = ph.supplier_id
+    INNER JOIN shopping_items shi 
+    ON ph.purchase_id = shi.purchase_id
+    INNER JOIN products p 
+    ON shi.product_id = p.product_id
+    INNER JOIN sales_items si 
+    ON p.product_id = si.product_id
+    INNER JOIN sales_history sh 
+    ON si.sales_id = sh.sales_id
+    GROUP BY s.supplier_id, s.supplier_name
+),
+total_supplier_sales AS 
+(
+    SELECT SUM(total_sales) AS grand_total_sales
+    FROM supplier_sales
+)
+
+SELECT ss.supplier_name, ROUND((ss.total_sales / tss.grand_total_sales) * 100, 2) AS market_share_percentage
+FROM supplier_sales ss
+CROSS JOIN total_supplier_sales tss
+ORDER BY market_share_percentage DESC;
