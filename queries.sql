@@ -569,3 +569,27 @@ SELECT voivodeship_name, MAX(total_revenue) AS highest_total_revenue, MAX(growth
 FROM yearly_growth
 GROUP BY voivodeship_name
 ORDER BY highest_growth_percentage DESC, highest_total_revenue DESC;
+
+--30. Which suppliers account for the largest share of purchases (percentage)? 
+WITH supplier_purchases AS 
+(
+    SELECT s.supplier_name, SUM(si.quantity * p.net_purchase_price) AS total_purchase
+    FROM suppliers s
+    INNER JOIN purchase_history ph
+    ON s.supplier_id = ph.supplier_id
+    INNER JOIN shopping_items si
+    ON ph.purchase_id = si.purchase_id
+    INNER JOIN products p
+    ON si.product_id = p.product_id
+    GROUP BY s.supplier_name
+),
+total_purchases AS 
+(
+    SELECT SUM(total_purchase) AS grand_total_purchase
+    FROM supplier_purchases
+)
+
+SELECT sp.supplier_name, ROUND((sp.total_purchase / tp.grand_total_purchase) * 100, 2) AS purchase_share_percentage
+FROM supplier_purchases sp
+CROSS JOIN total_purchases tp
+ORDER BY purchase_share_percentage DESC;
