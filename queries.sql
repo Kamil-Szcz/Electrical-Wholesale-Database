@@ -534,3 +534,38 @@ SELECT ss.supplier_name, ROUND((ss.total_sales / tss.grand_total_sales) * 100, 2
 FROM supplier_sales ss
 CROSS JOIN total_supplier_sales tss
 ORDER BY market_share_percentage DESC;
+
+--29. Which voivodeships have the highest year-on-year sales growth, and which generate the most revenue? 
+WITH revenue_by_voivodeship AS 
+(
+    SELECT 
+        v.voivodeship_name
+        , EXTRACT(YEAR FROM sh.sale_date) AS sale_year
+        , SUM(si.quantity * p.net_sale_price) AS total_revenue
+    FROM voivodeships v
+    INNER JOIN locations l 
+    ON v.voivodeship_id = l.voivodeship
+    INNER JOIN customers c 
+    ON l.location_id = c.location_id
+    INNER JOIN sales_history sh 
+    ON c.customer_id = sh.customer_id
+    INNER JOIN sales_items si 
+    ON sh.sales_id = si.sales_id
+    INNER JOIN products p 
+    ON si.product_id = p.product_id
+    GROUP BY v.voivodeship_name, EXTRACT(YEAR FROM sh.sale_date)
+),
+yearly_growth AS (
+    SELECT 
+        voivodeship_name
+        , sale_year
+        , total_revenue
+        , total_revenue - LAG(total_revenue) OVER (PARTITION BY voivodeship_name ORDER BY sale_year) AS revenue_growth
+        , ROUND((total_revenue - LAG(total_revenue) OVER (PARTITION BY voivodeship_name ORDER BY sale_year)) / LAG(total_revenue) OVER (PARTITION BY voivodeship_name ORDER BY sale_year) * 100, 2) AS growth_percentage
+    FROM revenue_by_voivodeship
+)
+
+SELECT voivodeship_name, MAX(total_revenue) AS highest_total_revenue, MAX(growth_percentage) AS highest_growth_percentage
+FROM yearly_growth
+GROUP BY voivodeship_name
+ORDER BY highest_growth_percentage DESC, highest_total_revenue DESC;
