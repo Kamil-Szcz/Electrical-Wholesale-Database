@@ -47,7 +47,7 @@ GROUP BY c.customer_name;
 
 SELECT customer_name, ROUND(purchase_value, 2) AS purchase_value 
 FROM CustomerPurchaseValues
-ORDER BY purchase_value DESC;
+ORDER BY purchase_value DESC; 
 
 -- 5. What is the average value of orders?
 SELECT ROUND(AVG(order_value), 2) AS average_order_value
@@ -82,7 +82,7 @@ ORDER BY average_sales DESC;
 SELECT product_id, product_description, quantity_in_stock, reorder_level
 FROM products
 WHERE reorder_level >= quantity_in_stock  
-ORDER BY quantity_in_stock;
+ORDER BY quantity_in_stock; 
 
 -- 8. What are the profit margins on each product?
 SELECT 
@@ -97,7 +97,7 @@ FROM
 ORDER BY 
     profit_margin_percentage DESC;
 
--- 9. Which products have the highest return on investment (ROI)?
+--9. Which products have the highest return on investment (ROI)?
 SELECT 
     product_id
     , product_description
@@ -110,9 +110,8 @@ WHERE
     net_purchase_price > 0 -- Excludes products with zero or unknown purchase cost
 ORDER BY 
     ROI_percentage DESC;
-
+    
 -- 10. What are the projected revenues based on current sales trends? 
--- The query calculates the revenue forecast based on the average revenue of the last 3 months
 WITH Monthly_Sales AS 
 (
     SELECT TRUNC(sh.sale_date, 'MM') AS sales_month, SUM(si.quantity * p.net_sale_price) AS monthly_revenue
@@ -303,7 +302,7 @@ FROM
     products 
 ORDER BY 
     profit_margin_percentage ASC;
-
+    
 -- 19. Which products are most seasonal?
 WITH monthly_sales AS 
 (
@@ -322,7 +321,7 @@ FROM monthly_sales
 GROUP BY product_id, product_description
 )
 
-SELECT product_description, sales_std_dev
+SELECT product_id, product_description, sales_std_dev
 FROM sales_variation
 ORDER BY sales_std_dev DESC;
 
@@ -400,7 +399,7 @@ FROM
         ON p.range_id = pr.product_range_id
         GROUP BY TO_CHAR(sh.sale_date, 'YYYY-MM'), p.range_id, pr.product_range_name
     ) category_sales;
-    
+        
 -- A view for quarterly sales change:
 CREATE OR REPLACE VIEW quarterly_sales_change AS
 SELECT 
@@ -593,3 +592,11 @@ SELECT sp.supplier_name, ROUND((sp.total_purchase / tp.grand_total_purchase) * 1
 FROM supplier_purchases sp
 CROSS JOIN total_purchases tp
 ORDER BY purchase_share_percentage DESC;
+ 
+
+
+
+
+
+
+
