@@ -49,3 +49,6 @@ Finally, the data analyzed in Excel can be visualized using Power BI. This secti
 - Importing the data from Excel into Power BI.
 - Creating dashboards and reports.
 - Sharing insights and visualizations.
+
+### Data Model (ERD)
+The diagram below shows the initial structure of the database. Some tables and relationships were later updated during the project, but this gives a clear overview of the main entities and relationships.
