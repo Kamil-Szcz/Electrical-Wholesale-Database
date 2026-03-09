@@ -50,5 +50,10 @@ Finally, the data analyzed in Excel can be visualized using Power BI. This secti
 - Creating dashboards and reports.
 - Sharing insights and visualizations.
 
-### Data Model (ERD)
+## Data Model (ERD)
 The diagram below shows the initial structure of the database. Some tables and relationships were later updated during the project, but this gives a clear overview of the main entities and relationships.
+
+Notes:
+- This ERD reflects the early design of the database used for SQL analysis and reporting.
+- Some changes were made after this diagram, including updates to tables like sales_history, products, and purchase_history.
+- Despite updates, the diagram illustrates the core structure, relationships, and logic of the data model.
