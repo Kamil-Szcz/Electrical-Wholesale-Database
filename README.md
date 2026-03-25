@@ -57,7 +57,7 @@ Notes:
 ![Sales by employee](images/sales_by_employee_dashboard_overview.png)
 
 ### Sales by Region
-![Map](images/sales_map.png)
+![Sales](images/sales_dashboard_overview.png)
 
 ### Sales Trend
 ![Trend](images/sales_trend.png)
