@@ -1,54 +1,43 @@
-# Electrical Wholesale Database
-## Introduction
+# Electrical Wholesale Sales Analysis
 
-This project encompasses the full lifecycle of data management and analysis for an electrical wholesale company. It includes:
-1. Database Creation: SQL script to create the database structure.
-2. Data Import: Steps to import data from Excel files into the database.
-3. SQL Queries: Sample queries to extract and manipulate data.
-4. Data Analysis: Conducting data analysis in Excel.
-5. Data Visualization: Creating visualizations in Power BI.
+## 📊 Project Overview
+This project presents an end-to-end data analysis workflow for an electrical wholesale company.
 
-## Requirements
-- Oracle SQL Developer
-- Oracle Database
-- Microsoft Excel
-- Microsoft Power BI
+It covers:
+- database design and data modeling (Oracle SQL)
+- data extraction and transformation (SQL)
+- data analysis (Excel)
+- interactive dashboard creation (Power BI)
 
-## Sections
-### 1. Database Creation
-To create the database, follow these steps:
-- Open SQL Developer.
-- Connect to your database instance.
-- Open the file electrical_wholesale_database_script.sql.
-- Run the script (F5 or Run Script) to create all required tables and structures.
+The goal of the project was to analyze sales performance, identify trends and support business decision-making.
 
-### 2. Importing Data from Excel Files
-After creating the database, data can be imported using the Data Import Wizard in SQL Developer:
-1. Prepare the Excel Files: Ensure that the Excel files contain data corresponding to the tables in the database.
-2. Launch the Data Import Wizard:
-- In SQL Developer, go to the Connections tab.
-- Locate and expand the connection to your database.
-- Right-click on the table where you want to import the data.
-- Select "Import Data...".
-3. Configure the Import: Map the columns from the Excel file to the database table columns.
-4. Verify the Data: Check that the data has been correctly imported.
+---
 
-### 3. SQL Queries
-This section includes example SQL queries for:
-- Data extraction
-- Data aggregation
-- Data transformation
+## Key Insights
 
-### 4. Data Analysis in Excel
-After extracting the necessary data using SQL queries, this section includes:
-- Importing the data into Excel.
-- Performing data analysis using PivotTables, formulas, and other Excel features.
+- Sales are concentrated in selected regions, indicating geographic revenue clusters  
+- Significant variation in monthly sales suggests seasonality  
+- A small group of products generates the majority of revenue (Pareto effect)  
+- Employee contribution to sales differs across customers  
 
-### 5. Data Visualization in Power BI
-Finally, the data analyzed in Excel can be visualized using Power BI. This section covers:
-- Importing the data from Excel into Power BI.
-- Creating dashboards and reports.
-- Sharing insights and visualizations.
+---
+
+## Tools & Technologies
+
+- SQL (Oracle)
+- Microsoft Excel (Pivot Tables, Power Query)
+- Power BI (data visualization, dashboarding)
+
+---
+
+## Project Structure
+
+/sql
+/excel
+/powerbi
+/images
+
+
 
 ## Data Model (ERD)
 The diagram below shows the initial structure of the database. Some tables and relationships were later updated during the project, but this gives a clear overview of the main entities and relationships.
@@ -59,3 +48,16 @@ Notes:
 - This ERD reflects the early design of the database used for SQL analysis and reporting.
 - Some changes were made after this diagram, including updates to tables like sales_history, products, and purchase_history.
 - Despite updates, the diagram illustrates the core structure, relationships, and logic of the data model.
+
+---
+
+## 📸 Dashboard Preview
+
+### Overview
+![Dashboard](images/dashboard_overview.png)
+
+### Sales by Region
+![Map](images/sales_map.png)
+
+### Sales Trend
+![Trend](images/sales_trend.png)
