@@ -59,5 +59,5 @@ Notes:
 ### Sales Trend
 ![Sales](images/sales_dashboard_overview.png)
 
-### Sales Trend
-![Trend](images/sales_trend.png)
+### Purchase
+![Purchase](images/purchase_dashboard_overview.png)
