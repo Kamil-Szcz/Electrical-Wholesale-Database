@@ -54,7 +54,7 @@ Notes:
 ## 📸 Dashboard Preview
 
 ### Overview
-![Dashboard](images/purchase_dashboard_overview.png)
+![Sales by employee](images/sales_by_employee_dashboard_overview.png)
 
 ### Sales by Region
 ![Map](images/sales_map.png)
