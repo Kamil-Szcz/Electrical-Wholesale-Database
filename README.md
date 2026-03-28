@@ -64,7 +64,14 @@ The dashboard supports evaluation of sales effectiveness, customer importance, a
 
 ![Sales by employee](images/sales_by_employee_dashboard_overview.png)
 
-### Sales Trend
+### Sales Performance Overview Dashboard
+
+This dashboard provides a high-level overview of sales performance across multiple dimensions.
+
+It includes key KPIs such as total sales, average sale and percentage share of sales. The dashboard enables analysis of monthly sales trends, geographic distribution of revenue, and product category performance.
+
+It allows users to quickly identify sales patterns, regional differences, and key revenue drivers.
+
 ![Sales](images/sales_dashboard_overview.png)
 
 ### Purchase
