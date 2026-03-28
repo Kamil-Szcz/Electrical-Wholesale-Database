@@ -33,10 +33,10 @@ The goal of the project was to analyze sales performance, identify trends and su
 
 ## Project Structure
 
-/sql
-/excel
-/powerbi
-/images
+/sql  
+/excel  
+/powerbi  
+/images  
 
 
 
