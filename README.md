@@ -1,6 +1,6 @@
 # Electrical Wholesale Sales Analysis
 
-## 📊 Project Overview
+## Project Overview
 This project presents an end-to-end data analysis workflow for an electrical wholesale company.
 
 It covers:
