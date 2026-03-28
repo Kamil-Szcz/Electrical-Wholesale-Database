@@ -18,7 +18,10 @@ The goal of the project was to analyze sales performance, identify trends and su
 - Sales are concentrated in selected regions, indicating geographic revenue clusters  
 - Significant variation in monthly sales suggests seasonality  
 - A small group of products generates the majority of revenue (Pareto effect)  
-- Employee contribution to sales differs across customers  
+- Employee contribution to sales differs across customers
+
+ Analysis with business questions and SQL-based answers is available here:  
+ 📄 [View report](data_analysis_for_an_electrical_warehouse.docx)
 
 ---
 
