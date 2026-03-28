@@ -15,9 +15,12 @@ The goal of the project was to analyze sales performance, identify trends and su
 
 ## Key Insights
 
+- Total revenue exceeded **37,5 mld PLN** across **14,553 transactions**
 - Sales are concentrated in selected regions, indicating geographic revenue clusters  
-- Significant variation in monthly sales suggests seasonality  
-- A small group of products generates the majority of revenue (Pareto effect)  
+- Strong **seasonality** observed – monthly sales range from ~2,6 mld to ~4 mld PLN  
+- A small group of products generates the majority of revenue (Pareto effect)
+- Highest sales activity occurs on **Thursday, Wednesday, and Tuesday**
+- Best performing salesman (revenue): **Jan Farel**
 - Employee contribution to sales differs across customers
 
  Analysis with business questions and SQL-based answers is available here:  
