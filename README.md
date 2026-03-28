@@ -38,7 +38,7 @@ The goal of the project was to analyze sales performance, identify trends and su
 /powerbi  
 /images  
 
-
+---
 
 ## Data Model (ERD)
 The diagram below shows the initial structure of the database. Some tables and relationships were later updated during the project, but this gives a clear overview of the main entities and relationships.
