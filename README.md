@@ -52,7 +52,7 @@ Notes:
 
 ---
 
-## 📸 Dashboard Preview
+## Dashboard Preview
 
 ### Sales Contribution Analysis by Employee and Customer
 
