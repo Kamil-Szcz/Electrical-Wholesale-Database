@@ -22,6 +22,16 @@ The goal of the project was to analyze sales performance, identify trends and su
 
 ---
 
+## Business Value
+
+The analysis enables:
+- identification of top-performing regions and products
+- detection of seasonal sales patterns
+- evaluation of employee performance
+- support for data-driven sales strategy decisions
+
+---
+
 ## Tools & Technologies
 
 - SQL Developer Data Modeler (data model)
