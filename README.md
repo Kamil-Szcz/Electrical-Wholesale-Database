@@ -83,3 +83,5 @@ It includes key metrics related to total purchase value, supplier contribution, 
 It allows identification of key suppliers, monitoring of purchasing patterns, and supports optimization of procurement strategies and cost management.
 
 ![Purchase](images/purchase_dashboard_overview.png)
+
+All of these dashboards provide a comprehensive view of both the revenue and cost sides of the business, supporting data-driven decision-making at various levels of the organization.
