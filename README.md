@@ -24,7 +24,8 @@ The goal of the project was to analyze sales performance, identify trends and su
 
 ## Tools & Technologies
 
-- SQL (Oracle)
+- SQL Developer Data Modeler (data model)
+- Oracle SQL Developer (SQL queries)
 - Microsoft Excel (Pivot Tables, Power Query)
 - Power BI (data visualization, dashboarding)
 
