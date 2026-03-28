@@ -74,5 +74,12 @@ It allows users to quickly identify sales patterns, regional differences, and ke
 
 ![Sales](images/sales_dashboard_overview.png)
 
-### Purchase
+### Procurement & Purchase Analysis Dashboard
+
+This dashboard provides a comprehensive analysis of purchasing and procurement performance.
+
+It includes key metrics related to total purchase value, supplier contribution, and purchased quantities. The dashboard enables analysis of monthly purchasing trends, geographic distribution of purchases, and supplier-level performance.
+
+It allows identification of key suppliers, monitoring of purchasing patterns, and supports optimization of procurement strategies and cost management.
+
 ![Purchase](images/purchase_dashboard_overview.png)
