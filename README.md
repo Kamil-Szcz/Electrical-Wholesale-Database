@@ -33,10 +33,10 @@ The goal of the project was to analyze sales performance, identify trends and su
 
 ## Project Structure
 
-/sql  
-/excel  
-/powerbi  
-/images  
+/excel → data analysis files   
+/images → dashboard screenshots  
+/powerbi → Power BI report (.pbix)    
+/sql → SQL scripts and queries     
 
 ---
 
