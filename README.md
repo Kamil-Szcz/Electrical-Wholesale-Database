@@ -82,11 +82,11 @@ Customer-level sales distribution
 
 ### Sales Performance Overview Dashboard
 
-This dashboard provides a high-level overview of sales performance across multiple dimensions.
+Total sales, percentage of sales, average sale and transaction volume  
 
-It includes key KPIs such as total sales, average sale and percentage share of sales. The dashboard enables analysis of monthly sales trends, geographic distribution of revenue, and product category performance.
+Monthly sales trends and seasonality  
 
-It allows users to quickly identify sales patterns, regional differences, and key revenue drivers.
+Geographic distribution of revenue  
 
 ![Sales](images/sales_dashboard_overview.png)
 
