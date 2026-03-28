@@ -72,11 +72,11 @@ Notes:
 
 ### Sales Contribution Analysis by Employee and Customer
 
-This dashboard focuses on analyzing the contribution of employees and customers to overall sales performance.
+Revenue share by employee and customer  
 
-It presents how revenue is distributed across different employees and key customers, allowing for comparison of performance and identification of top contributors.
+Identification of top-performing sales representatives  
 
-The dashboard supports evaluation of sales effectiveness, customer importance, and potential areas for optimization in sales strategy.
+Customer-level sales distribution  
 
 ![Sales by employee](images/sales_by_employee_dashboard_overview.png)
 
